@@ -4,6 +4,21 @@ import java.util.Scanner;
 public class BankAccountMain {
 
 	
+	private static boolean isNumeric(String str)
+	{
+	try
+	{
+	Double.parseDouble(str);
+	return true;
+	}
+	catch(IllegalArgumentException e)
+	{
+		return false;
+	}
+	}
+	
+	
+		
 	public static void main(String[] args)
 	{
 		ArrayList<BankAccount> accounts = new ArrayList<BankAccount>();
@@ -14,12 +29,14 @@ public class BankAccountMain {
 		final double TRANSACTION_FEE = 1.5;
 		final double MIN_BAL = 300;
 		final double MIN_BAL_FEE = 10;
-		final double FREE_TRANSACTIONS = 10;
+		final int FREE_TRANSACTIONS = 10;
 		
+		double balance;
 		boolean inUse = true;
 		
 		while(inUse)
 		{
+			// Main Menu
 			System.out.println("What would you like to do?");
 			System.out.println("To add an account, type /add. ");
 			System.out.println("To make a transaction, type /tran.");
@@ -57,13 +74,52 @@ public class BankAccountMain {
 					{
 						while(accDecision = true)
 						{
-							System.out.println("Would you like to make an initial deposit?");
+							System.out.println("Would you like to make a checking account?");
 							System.out.println("Type /yes to confirm, type /no to deny.");
 							String depositDec = userChoice.nextLine();
 							if(depositDec.equals("/yes"))
 							{
+								System.out.println("Please input the name your account will be under: ");
+								String choiceNameChecking = userChoice.nextLine();
+								boolean selectingInitialDeposit = true;
+								while(selectingInitialDeposit)
+								{
+									System.out.println("Would you like to make an initial deposit?");
+									System.out.println("Type /yes to confirm, type /no to deny: ");
+									String choiceInitialSavings = userChoice.nextLine();
+									if(choiceInitialSavings.equals("/yes"))
+									{
+										System.out.println("How much would you like to deposit?");
+										String initialDeposit = userChoice.nextLine();
+										
+										while(!isNumeric(initialDeposit))
+										{
+											System.out.println("That was not a numeric value. Please enter a numeric value.");
+											initialDeposit = userChoice.nextLine();
+										}
+										
+										balance = Double.parseDouble(initialDeposit);
+										accounts.add(new CheckingAccount(choiceNameChecking, balance, OVER_DRAFT_FEE, TRANSACTION_FEE, FREE_TRANSACTIONS));
+										System.out.println("Account successfully added.");
+										
+											
+										
+										
+									}
+									
+									else if(choiceInitialSavings.equals("/no"))
+									{
+										accounts.add(new CheckingAccount(choiceNameChecking, 0, OVER_DRAFT_FEE, TRANSACTION_FEE, FREE_TRANSACTIONS));
+										System.out.println("Account successfully added.");
+									}
+									
+									
+								}
 								
-								
+							}
+							else if(depositDec.equals("/no"))
+							{
+								System.out.println("Checking account creation canceled.");
 							}
 							
 							
@@ -86,11 +142,13 @@ public class BankAccountMain {
 				}
 			}
 			
+			// proceeds to transaction wizard
 			else if(choice.equals("/tran"))
 			{
 				
 			}
 			
+			// exits the program if the user is a wuss
 			else if(choice.equals("/exit"))
 			{
 				inUse = false;
