@@ -65,6 +65,60 @@ public class BankAccountMain {
 					// proceeds to savings account creation
 					if(choiceAcc.equals("/save"))
 					{
+						while(accDecision = true)
+						{
+							System.out.println("Would you like to make a savings account?");
+							System.out.println("Type /yes to confirm, type /no to deny.");
+							String depositDec = userChoice.nextLine();
+							if(depositDec.equals("/yes"))
+							{
+								System.out.println("Please input the name your account will be under: ");
+								String choiceNameChecking = userChoice.nextLine();
+								boolean selectingInitialDeposit = true;
+								while(selectingInitialDeposit)
+								{
+									System.out.println("Would you like to make an initial deposit?");
+									System.out.println("Type /yes to confirm, type /no to deny: ");
+									String choiceInitialSavings = userChoice.nextLine();
+									if(choiceInitialSavings.equals("/yes"))
+									{
+										System.out.println("How much would you like to deposit?");
+										String initialDeposit = userChoice.nextLine();
+										
+										while(!isNumeric(initialDeposit))
+										{
+											System.out.println("That was not a numeric value. Please enter a numeric value.");
+											initialDeposit = userChoice.nextLine();
+										}
+										
+										
+										balance = Double.parseDouble(initialDeposit);
+										accounts.add(new SavingsAccount(choiceNameChecking, balance, OVER_DRAFT_FEE, TRANSACTION_FEE, FREE_TRANSACTIONS));
+										System.out.println("Account successfully added.");
+										
+											
+										
+										
+									}
+									
+									else if(choiceInitialSavings.equals("/no"))
+									{
+										accounts.add(new CheckingAccount(choiceNameChecking, 0, OVER_DRAFT_FEE, TRANSACTION_FEE, FREE_TRANSACTIONS));
+										System.out.println("Account successfully added.");
+									}
+									
+									
+								}
+								
+							}
+							else if(depositDec.equals("/no"))
+							{
+								System.out.println("Checking account creation canceled.");
+							}
+							
+							
+						}
+						
 						
 						
 					}
@@ -145,7 +199,7 @@ public class BankAccountMain {
 			// proceeds to transaction wizard
 			else if(choice.equals("/tran"))
 			{
-				
+			
 			}
 			
 			// exits the program if the user is a wuss
