@@ -9,15 +9,17 @@ public abstract class BankAccount {
 
 	public BankAccount(String n)
 	{	
-	name = n;
-	acctNum = nextAccNum;
-	balance = 0;
+		name = n;
+		acctNum = nextAccNum;
+		acctNum = (int)(Math.random()* 1000);
+		balance = 0;
 	}
 	
 	public BankAccount(String n, double b)
 	{
 		name = n;
 		acctNum = nextAccNum;
+		acctNum = (int)(Math.random()* 1000);
 		balance = b;
 	}
 
@@ -78,6 +80,9 @@ public abstract class BankAccount {
 		return "" + acctNum + "     " + getName() + "     " + "$" + getBalance();
 	}
 
-
+	public int getAcctNum()
+	{
+		return acctNum;
+	}
 
 }
